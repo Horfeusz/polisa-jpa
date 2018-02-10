@@ -5,11 +5,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "EP_UBEZPIECZONY2")
+@NamedEntityGraph(name = "graph.Ubezpieczony.polisa", 
+		attributeNodes = {@NamedAttributeNode("polisa")})
 public class Ubezpieczony {
 
 	@Id

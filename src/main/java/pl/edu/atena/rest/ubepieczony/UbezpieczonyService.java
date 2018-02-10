@@ -45,7 +45,7 @@ public class UbezpieczonyService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public Response retrieve(@PathParam("id") Long id) {
-		Ubezpieczony ubezpieczony = dao.findWtihPolicy(id);
+		Ubezpieczony ubezpieczony = dao.findWtihPolicy4(id);
 		return Response.status(200).entity(ubezpieczony).build();
 	}
 
