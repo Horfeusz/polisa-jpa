@@ -21,7 +21,7 @@ public class Ryzyko {
 
 	private BigDecimal skladka;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "POL_ID", foreignKey = @ForeignKey(name = "FK_RYZYKO_TO_POLISA"))
 	private Polisa polisa;
 

@@ -36,7 +36,7 @@ public class UbezpieczonyService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/polisa/{idPolisy}")
 	public Response dodajDodPolisy(Ubezpieczony ubezpieczony, @PathParam("idPolisy") Long idPolisy) {
-		ubezpieczony.setPolisa(polisaDao.find(idPolisy));
+		//ubezpieczony.setPolisa(polisaDao.find(idPolisy));
 		dao.update(ubezpieczony);
 		return Response.status(200).entity(ubezpieczony).build();
 	}

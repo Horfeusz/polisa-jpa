@@ -52,12 +52,12 @@ public class Polisa {
 
 	private String ubezpieczajacy;
 
-	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	@JoinTable(name = "AGENCI_POLISY", foreignKey = @ForeignKey(name = "FK_AGENT_TO_POLISA"), joinColumns = {
 			@JoinColumn(name = "AGD_ID") }, inverseJoinColumns = { @JoinColumn(name = "POL_ID") })
 	private List<Agent> agenci;
 
-	@OneToMany(mappedBy = "polisa", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "polisa", fetch = FetchType.EAGER)
 	private List<Ryzyko> ryzyka;
 
 	private BigDecimal skladka;
