@@ -55,7 +55,11 @@ public class PolisaService {
 	@Path("/szukaj/numer/{numer}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Polisa poNumerze(@PathParam("numer") String numer) {
-		return polisa2Dao.szukajPoNumerze(numer);
+		Polisa polisa = polisa2Dao.szukajPoNumerze(numer);
+		
+		//polisa2Dao.ileRyzyk(numer);
+		
+		return polisa;
 	}
 
 	@GET

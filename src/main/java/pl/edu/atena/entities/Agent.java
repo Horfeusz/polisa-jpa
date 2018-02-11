@@ -23,7 +23,7 @@ public class Agent {
 
 	private String nazwa;
 
-	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinTable(name = "EP_AGENCI_POLISY", foreignKey = @ForeignKey(name = "FK_POLISA_TO_AGENT"), joinColumns = {
 			@JoinColumn(name = "POL_ID") }, inverseJoinColumns = { @JoinColumn(name = "AGD_ID") })
 	private List<Polisa> polisy;
