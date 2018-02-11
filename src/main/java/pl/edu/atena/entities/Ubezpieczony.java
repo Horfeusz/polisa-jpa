@@ -2,6 +2,7 @@ package pl.edu.atena.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -11,9 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "EP_UBEZPIECZONY2")
-@NamedEntityGraph(name = "graph.Ubezpieczony.polisa", 
-		attributeNodes = {@NamedAttributeNode("polisa")})
+@Table(name = "EP_UBEZPIECZONY")
+@NamedEntityGraph(name = "graph.Ubezpieczony.ryzyko", attributeNodes = { @NamedAttributeNode("ryzyko") })
 public class Ubezpieczony {
 
 	@Id
@@ -22,9 +22,9 @@ public class Ubezpieczony {
 
 	private String nazwa;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "POL_ID")
-	private Polisa polisa;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "RYZ_ID", foreignKey = @ForeignKey(name = "FK_UBEZP_TO_RYZYKO"))
+	private Ryzyko ryzyko;
 
 	public Long getId() {
 		return id;
@@ -42,12 +42,12 @@ public class Ubezpieczony {
 		this.nazwa = nazwa;
 	}
 
-	public Polisa getPolisa() {
-		return polisa;
+	public Ryzyko getRyzyko() {
+		return ryzyko;
 	}
 
-	public void setPolisa(Polisa polisa) {
-		this.polisa = polisa;
+	public void setRyzyko(Ryzyko ryzyko) {
+		this.ryzyko = ryzyko;
 	}
 
 }

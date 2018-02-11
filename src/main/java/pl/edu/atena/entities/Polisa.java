@@ -3,14 +3,22 @@ package pl.edu.atena.entities;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,7 +26,7 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "EPO_POLISA2", indexes = {
+@Table(name = "EP_POLISA", indexes = {
 		@Index(columnList = "NR_POLISY", name = "IDX_NR_POLISY") }, uniqueConstraints = {
 				@UniqueConstraint(columnNames = { "NR_POLISY" }) }, schema = "public")
 public class Polisa {
@@ -43,6 +51,14 @@ public class Polisa {
 	private StatusPolisy statusPolisy;
 
 	private String ubezpieczajacy;
+
+	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@JoinTable(name = "AGENCI_POLISY", foreignKey = @ForeignKey(name = "FK_AGENT_TO_POLISA"), joinColumns = {
+			@JoinColumn(name = "AGD_ID") }, inverseJoinColumns = { @JoinColumn(name = "POL_ID") })
+	private List<Agent> agenci;
+
+	@OneToMany(mappedBy = "polisa", fetch = FetchType.LAZY)
+	private List<Ryzyko> ryzyka;
 
 	private BigDecimal skladka;
 
@@ -108,6 +124,22 @@ public class Polisa {
 
 	public void setStatusPolisy(StatusPolisy statusPolisy) {
 		this.statusPolisy = statusPolisy;
+	}
+
+	public List<Agent> getAgenci() {
+		return agenci;
+	}
+
+	public void setAgenci(List<Agent> agenci) {
+		this.agenci = agenci;
+	}
+
+	public List<Ryzyko> getRyzyka() {
+		return ryzyka;
+	}
+
+	public void setRyzyka(List<Ryzyko> ryzyka) {
+		this.ryzyka = ryzyka;
 	}
 
 }

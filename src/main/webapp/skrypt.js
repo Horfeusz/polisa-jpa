@@ -25,7 +25,7 @@ app.controller('mojCtrl', function ($scope, $http) {
     scope.zapiszPolise = () => {
         $http({
             method: 'POST',
-            url: '/polisa-jpa/api/polisa',
+            url: `/polisa-jpa/api/polisa`,
             data: scope.model,
             headers: { 'Content-Type': 'application/json ' }
         }).
