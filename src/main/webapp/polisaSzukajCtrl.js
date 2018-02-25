@@ -23,7 +23,8 @@ app.controller('polisaSzukajCtrl', function ($scope, $http) {
         }).
             then((response) => {
                 console.log(response);
-                scope.polisy.push(response.data);
+                scope.polisy = response.data;
+                //scope.polisy.push(response.data);
             }, (response) => {
                 alert('Błąd podczas próby odczytu danych: ' + response.data);
             });

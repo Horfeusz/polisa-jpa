@@ -27,8 +27,7 @@ import pl.edu.atena.entities.Polisa;
 		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
 
 		// Selektor komunikatów
-		// @ActivationConfigProperty(propertyName = "messageSelector", propertyValue =
-		// "POLISA = 'ZATWIERDZONA'"),
+		@ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "POLISA = 'ZATWIERDZONA'"),
 
 		// Trwa³oœæ subskrypcji
 		@ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "Durable") })

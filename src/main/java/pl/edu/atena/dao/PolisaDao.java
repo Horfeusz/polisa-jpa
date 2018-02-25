@@ -28,10 +28,15 @@ public class PolisaDao {
 
 	@EJB
 	private RyzykaDao ryzykoDao;
+	
+	@EJB
+	private AudytDao audyt;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void create(Polisa polisa) {
+		audyt.loguj("Polisa przed persist");
 		em.persist(polisa);
+		audyt.loguj("Polisa po persist");
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

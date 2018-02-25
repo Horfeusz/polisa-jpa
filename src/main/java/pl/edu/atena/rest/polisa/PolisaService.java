@@ -1,6 +1,7 @@
 package pl.edu.atena.rest.polisa;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -15,7 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import pl.edu.atena.biz.producers.PolicyNewProducer;
+import pl.edu.atena.biz.producers.PolicyNewToTopicProducer;
 import pl.edu.atena.biz.timers.PolicyCountTimer;
+import pl.edu.atena.dao.AudytDao;
 import pl.edu.atena.dao.PolisaDao;
 import pl.edu.atena.dao.PolisaDao2;
 import pl.edu.atena.dao.UbezpieczonyDao;
@@ -25,6 +28,8 @@ import pl.edu.atena.entities.StatusPolisy;
 @Path("/polisa")
 public class PolisaService {
 
+	private Logger log = Logger.getLogger("PolisaService");
+	
 	@EJB
 	private PolisaDao polisaDao;
 
@@ -39,16 +44,30 @@ public class PolisaService {
 
 	@EJB
 	private PolicyCountTimer policyCountTimer;
+	
+	@EJB
+	private PolicyNewToTopicProducer policyNewToTopicProducer;
 
+	@EJB
+	private AudytDao audyt;
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(Polisa polisa) {
-		polisaDao.create(polisa);
+	public Response create(Polisa polisa) {		
+		try {
+			polisaDao.create(polisa);
+		} catch(Exception e) {
+			audyt.loguj("Cos tam sie stalo: " + e.getMessage());
+		}
+		
 		
 		//policyNewProducer.sendPolicy(polisa);
+		//policyNewToTopicProducer.send(polisa);
+		
+		
 		//policyCountTimer.create();
-		//policyCountTimer.timery();
+		policyCountTimer.timery();
 		return Response.status(200).entity(polisa).build();
 	}
 
@@ -68,7 +87,7 @@ public class PolisaService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(Polisa polisa) {
 		Polisa result = polisaDao.update(polisa);
-		policyNewProducer.sendPolicy(polisa);
+		//policyNewProducer.sendPolicy(polisa);
 		return Response.status(200).entity(result).build();
 	}
 

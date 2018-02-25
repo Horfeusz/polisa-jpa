@@ -14,7 +14,7 @@ public class PolicyJob {
 
 	private Logger log = Logger.getLogger("PolicyJob");
 
-	//@Schedule(second = "0,10,20,30,40,50", minute = "*", hour = "*")
+	@Schedule(second = "0,10,20,30,40,50", minute = "*", hour = "*", persistent = false)
 	public void execute(Timer timer) {
 		log.info("Odpale siê znowu: " + timer.getNextTimeout());
 	}

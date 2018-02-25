@@ -3,7 +3,10 @@ package pl.edu.atena.dao;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,8 +24,15 @@ public class UbezpieczonyDao {
 	@PersistenceContext(unitName = "PolisaPU")
 	private EntityManager em;
 
+	@EJB
+	private AudytDao audyt;
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void create(Ubezpieczony ubezpieczony) {
+		audyt.loguj("Ubezpieczony po persist");
 		em.persist(ubezpieczony);
+		
+		throw new NullPointerException("Srututut");
 	}
 
 	public Ubezpieczony find(Long id) {

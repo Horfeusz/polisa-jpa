@@ -25,6 +25,7 @@ public class PolicyNewProducer {
 	@Resource(lookup = "java:/jms/queue/PolisaQueue")
 	private Queue queue;
 
+	
 	public void sendPolicy(Polisa polisa) {
 		Connection connection = null;
 		MessageProducer publisher = null;
@@ -36,7 +37,7 @@ public class PolicyNewProducer {
 			publisher = session.createProducer(queue);
 			connection.start();
 			ObjectMessage message = session.createObjectMessage();
-			//message.setObjectProperty("POLSIA", "ZATWIERDZONA");
+			message.setObjectProperty("POLISA", "ZATWIERDZONA");
 			message.setObject(polisa);
 			publisher.send(message);
 			log.info("Wys³ano polisê");
@@ -61,5 +62,6 @@ public class PolicyNewProducer {
 		}
 
 	}
+	
 
 }
