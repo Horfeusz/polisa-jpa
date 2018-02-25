@@ -1,5 +1,6 @@
 package pl.edu.atena.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
@@ -31,6 +32,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 
 import pl.edu.atena.dao.PolisaDao;
 
@@ -43,8 +45,10 @@ import pl.edu.atena.dao.PolisaDao;
 @SqlResultSetMapping(name = "polisaIleRyzyk", entities = {
 		@EntityResult(entityClass = PolisaIleRyzykVO.class, fields = { @FieldResult(name = "id", column = "id"),
 				@FieldResult(name = "nrPolisy", column = "NR_POLISY"), @FieldResult(name = "ile", column = "ile") }) })
-@EntityListeners({PolisaDao.class})
-public class Polisa {
+@EntityListeners({ PolisaDao.class })
+public class Polisa implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -52,6 +56,9 @@ public class Polisa {
 
 	@Column(name = "NR_POLISY", nullable = false, length = 20)
 	private String numerPolisy;
+
+	@Version
+	private Long wer;
 
 	@Transient
 	private Long idTemp;

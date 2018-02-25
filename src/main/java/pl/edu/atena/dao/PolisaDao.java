@@ -7,8 +7,11 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
@@ -26,6 +29,7 @@ public class PolisaDao {
 	@EJB
 	private RyzykaDao ryzykoDao;
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void create(Polisa polisa) {
 		em.persist(polisa);
 	}
@@ -55,8 +59,9 @@ public class PolisaDao {
 
 	}
 
-	public Polisa updateUbezpieczajact(Long id, String ubezpieczajacy) {
+	public Polisa updateUbezpieczajac(Long id, String ubezpieczajacy) {
 		Polisa polisaUpdate = find(id);
+		em.lock(polisaUpdate, LockModeType.WRITE);
 		polisaUpdate.setUbezpieczajacy(ubezpieczajacy);
 		polisaUpdate.setSkladka(BigDecimal.ONE);
 		return polisaUpdate;
@@ -82,9 +87,7 @@ public class PolisaDao {
 				"select p.id, p.NR_POLISY, count(r.id) as ile from EP_POLISA p left join EP_RYZYKO r on r.pol_id = p.id where p.NR_POLISY = ?1 group by p.id, p.NR_POLISY",
 				"polisaIleRyzyk");
 		query.setParameter(1, numer);
-
 		query.getResultList().forEach(System.out::println);
-
 		// query.getResultList().forEach(item -> {
 		// Object[] obj = (Object[]) item;
 		// System.out.println(obj[0] + " " + obj[1]);

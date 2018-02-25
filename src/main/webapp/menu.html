@@ -1,0 +1,22 @@
+<div ng-controller="menuCtrl" ng-init="init()">
+    <nav class="navbar is-success" role="navigation" aria-label="dropdown navigation">
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+                Operacje
+            </a>
+
+            <div class="navbar-dropdown">
+                <a class="navbar-item" ng-click="doPolisy()">
+                    Rejestracja Polisy
+                </a>
+                <a class="navbar-item" ng-click="szukajPolise()">
+                    Wyszukiwanie polisy
+                </a>
+                <hr class="navbar-divider">
+                <div class="navbar-item">
+                    Wersja 0.0.2
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

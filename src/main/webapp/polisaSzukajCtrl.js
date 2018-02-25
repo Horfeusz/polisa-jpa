@@ -1,6 +1,4 @@
-const app = angular.module("appPolisaSearch", []);
-
-app.controller('searchCtrl', function ($scope, $http) {
+app.controller('polisaSzukajCtrl', function ($scope, $http) {
 
     const scope = $scope;
 
@@ -27,7 +25,7 @@ app.controller('searchCtrl', function ($scope, $http) {
                 console.log(response);
                 scope.polisy.push(response.data);
             }, (response) => {
-                alert('Błąd zapisu danych: ' + response.data);
+                alert('Błąd podczas próby odczytu danych: ' + response.data);
             });
     }
 
@@ -40,7 +38,7 @@ app.controller('searchCtrl', function ($scope, $http) {
             then((response) => {
                 scope.polisy = response.data;
             }, (response) => {
-                alert('Błąd zapisu danych: ' + response.data);
+                alert('Błąd podczas próby odczytu danych: ' + response.data);
             });
     }
 

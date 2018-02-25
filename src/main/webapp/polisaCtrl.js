@@ -1,6 +1,4 @@
-const app = angular.module("app", []);
-
-app.controller('mojCtrl', function ($scope, $http) {
+app.controller('polisaCtrl', function ($scope, $http) {
 
     const scope = $scope;
 

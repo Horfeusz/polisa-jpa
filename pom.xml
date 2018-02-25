@@ -25,11 +25,6 @@
 			<version>1.0.2.Final</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jboss.spec.javax.ejb/jboss-ejb-api_3.2_spec -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
-			<version>1.0.1.Final</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jboss.spec.javax.ws.rs/jboss-jaxrs-api_2.0_spec -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.ws.rs</groupId>
@@ -42,6 +37,11 @@
 			<version>1.9.13</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>polisa</finalName>

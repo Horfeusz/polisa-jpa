@@ -1,0 +1,62 @@
+<div ng-controller="polisaSzukajCtrl" class="container is-widescreen">
+
+	<ng-include src="'menu.html'"></ng-include>
+
+	<form class="column is-6 is-offset-3">
+		<h1 class="title">Podaj dane polisy</h1>
+		<div class="field is-small">
+			<label class="label">Numer polisy</label>
+			<div class="control">
+				<input class="input" type="search" placeholder="Numer polisy" ng-model="model.numerPolisy">
+			</div>
+		</div>
+		<div class="field is-small">
+			<label class="label">Staus</label>
+			<div class="select is-fullwidth">
+				<select name="status" ng-model="model.statusPolisy" ng-options="option as option for option in statusy">
+				</select>
+			</div>
+		</div>
+	</form>
+
+	<div class="field is-grouped is-grouped-centered">
+		<div class="control">
+			<button class="button is-link" ng-click="wyszukajPoNumerze()">Po numerze
+			</button>
+		</div>
+		<div class="control">
+			<button class="button is-text" ng-click="wyszukajPoStatusie()">Po stausie
+			</button>
+		</div>
+	</div>
+
+	<nav class="panel">
+		<p class="panel-heading">Polisy</p>
+		<div class="panel-block">
+			<table ng-if="polisy.length > 0" class="table is-striped is-hoverable is-fullwidth">
+				<thead>
+					<tr>
+						<th>numerPolisy</th>
+						<th>dataPodpisania</th>
+						<th>statusPolisy</th>
+						<th>ubezpieczajacy</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="polisa in polisy">
+						<td>{{polisa.numerPolisy}}</td>
+						<td>{{polisa.dataPodpisania}}</td>
+						<td>{{polisa.statusPolisy}}</td>
+						<td>{{polisa.ubezpieczajacy}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</nav>
+
+	<!--
+	<pre>
+                    {{polisy | json}}
+                </pre>
+			-->
+</div>

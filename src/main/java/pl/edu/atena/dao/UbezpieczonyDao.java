@@ -41,6 +41,14 @@ public class UbezpieczonyDao {
 		return (Ubezpieczony) q.getSingleResult();
 	}
 
+	
+	//FIXME - popraw to bo sprawdzaliœmy a tam nie ma relacji
+	//public Ubezpieczony findWtihPolicy(Long id) {
+	//	Ubezpieczony ubezp = em.find(Ubezpieczony.class, id);
+	//	ubezp.getPolisa().getId();
+	//	return ubezp;
+	//}	
+	
 	/**
 	 * Pobranie danych w relacji Lazy sposób drugi
 	 * 
