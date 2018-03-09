@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.interceptor.ExcludeDefaultInterceptors;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -13,8 +14,10 @@ import javax.jms.Queue;
 import javax.jms.Session;
 
 import pl.edu.atena.entities.Polisa;
+import pl.edu.atena.kernel.Audit;
 
 @Stateless
+@ExcludeDefaultInterceptors
 public class PolicyNewProducer {
 
 	Logger log = Logger.getLogger("PolicyNewProducer");
@@ -25,7 +28,7 @@ public class PolicyNewProducer {
 	@Resource(lookup = "java:/jms/queue/PolisaQueue")
 	private Queue queue;
 
-	
+	@Audit
 	public void sendPolicy(Polisa polisa) {
 		Connection connection = null;
 		MessageProducer publisher = null;
@@ -62,6 +65,5 @@ public class PolicyNewProducer {
 		}
 
 	}
-	
 
 }

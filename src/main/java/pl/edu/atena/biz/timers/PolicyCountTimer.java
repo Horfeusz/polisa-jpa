@@ -32,7 +32,7 @@ public class PolicyCountTimer {
 			StringBuilder sb = new StringBuilder();
 			sb.append("Timer: ").append((String) timer.getInfo()).append(" czas: ").append(timer.getNextTimeout());
 			log.info(sb.toString());
-			 timer.cancel();
+			timer.cancel();
 		});
 	}
 

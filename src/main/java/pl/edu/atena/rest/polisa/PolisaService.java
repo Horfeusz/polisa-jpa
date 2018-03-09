@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,6 +17,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import pl.edu.atena.biz.consumers.PolisaEvent;
+import pl.edu.atena.biz.consumers.PolisaEvent.Typ;
 import pl.edu.atena.biz.producers.PolicyNewProducer;
 import pl.edu.atena.biz.producers.PolicyNewToTopicProducer;
 import pl.edu.atena.biz.timers.PolicyCountTimer;
@@ -29,7 +33,7 @@ import pl.edu.atena.entities.StatusPolisy;
 public class PolisaService {
 
 	private Logger log = Logger.getLogger("PolisaService");
-	
+
 	@EJB
 	private PolisaDao polisaDao;
 
@@ -44,30 +48,37 @@ public class PolisaService {
 
 	@EJB
 	private PolicyCountTimer policyCountTimer;
-	
+
 	@EJB
 	private PolicyNewToTopicProducer policyNewToTopicProducer;
 
 	@EJB
 	private AudytDao audyt;
-	
+
+	@Inject
+	@PolisaEvent(Typ.ZATWIERDZ)
+	private Event<Polisa> eventZatwierdz;
+
+	@Inject
+	@PolisaEvent(Typ.USUN)
+	private Event<Polisa> eventUsun;
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(Polisa polisa) {		
+	public Response create(Polisa polisa) {
 		try {
 			polisaDao.create(polisa);
-		} catch(Exception e) {
+			log.info("Po create");		
+		} catch (Exception e) {
 			audyt.loguj("Cos tam sie stalo: " + e.getMessage());
 		}
-		
-		
-		//policyNewProducer.sendPolicy(polisa);
-		//policyNewToTopicProducer.send(polisa);
-		
-		
-		//policyCountTimer.create();
-		policyCountTimer.timery();
+
+		// policyNewProducer.sendPolicy(polisa);
+		// policyNewToTopicProducer.send(polisa);
+
+		// policyCountTimer.create();
+		// policyCountTimer.timery();
 		return Response.status(200).entity(polisa).build();
 	}
 
@@ -87,7 +98,7 @@ public class PolisaService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(Polisa polisa) {
 		Polisa result = polisaDao.update(polisa);
-		//policyNewProducer.sendPolicy(polisa);
+		// policyNewProducer.sendPolicy(polisa);
 		return Response.status(200).entity(result).build();
 	}
 

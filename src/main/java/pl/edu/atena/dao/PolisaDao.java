@@ -4,11 +4,16 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.interceptor.ExcludeClassInterceptors;
+import javax.interceptor.ExcludeDefaultInterceptors;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
@@ -17,26 +22,38 @@ import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Query;
 
+import pl.edu.atena.biz.consumers.PolisaEvent;
+import pl.edu.atena.biz.consumers.PolisaEvent.Typ;
 import pl.edu.atena.entities.Polisa;
 import pl.edu.atena.entities.StatusPolisy;
 
 @Stateless
+// @Interceptors(CzasTrwaniaMetodyLogger.class)
+@ExcludeDefaultInterceptors
 public class PolisaDao {
+
+	private Logger log = Logger.getLogger("PolisaDao");
 
 	@PersistenceContext(unitName = "PolisaPU")
 	private EntityManager em;
 
 	@EJB
 	private RyzykaDao ryzykoDao;
-	
+
 	@EJB
 	private AudytDao audyt;
 
+	@Inject
+	@PolisaEvent(Typ.ZATWIERDZ)
+	private Event<Polisa> eventZatwierdz;
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void create(Polisa polisa) {
-		audyt.loguj("Polisa przed persist");
+		log.info("Polisa przed persist");
 		em.persist(polisa);
-		audyt.loguj("Polisa po persist");
+		
+		eventZatwierdz.fire(polisa);
+		log.info("Po odpaleniu");
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -64,6 +81,7 @@ public class PolisaDao {
 
 	}
 
+	@ExcludeClassInterceptors
 	public Polisa updateUbezpieczajac(Long id, String ubezpieczajacy) {
 		Polisa polisaUpdate = find(id);
 		em.lock(polisaUpdate, LockModeType.WRITE);
