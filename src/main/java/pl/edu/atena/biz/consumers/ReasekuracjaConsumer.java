@@ -22,7 +22,6 @@ public class ReasekuracjaConsumer extends APolisaConsumer {
 	@Override
 	public void run(Polisa polisa) {
 		log.info("Mam polise: " + polisa);
-		audyt.loguj("Mam polise: " + polisa);
 	}
 
 }

@@ -22,7 +22,6 @@ public class PrzypisyConsumer extends APolisaConsumer {
 	@Override
 	public void run(Polisa polisa) {
 		log.info("Odebra³em polise:" + polisa);
-		audyt.loguj("Odebra³em polise:" + polisa);
 	}
 
 }

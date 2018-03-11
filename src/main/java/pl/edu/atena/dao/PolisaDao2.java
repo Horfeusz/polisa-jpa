@@ -1,10 +1,10 @@
 package pl.edu.atena.dao;
 
 import javax.annotation.Resource;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
 import pl.edu.atena.entities.Polisa;
@@ -13,7 +13,7 @@ import pl.edu.atena.entities.Polisa;
 @TransactionManagement(TransactionManagementType.BEAN)
 public class PolisaDao2 {
 
-	@EJB
+	@Inject
 	private PolisaDao dao;;
 
 	@Resource

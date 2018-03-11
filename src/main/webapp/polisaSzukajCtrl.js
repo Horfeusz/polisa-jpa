@@ -18,12 +18,13 @@ app.controller('polisaSzukajCtrl', function ($scope, $http) {
     scope.wyszukajPoNumerze = () => {
         $http({
             method: 'GET',
-            url: `/polisa-jpa/api/polisa/szukaj/numer/${scope.model.numerPolisy}`,
+            url: `/polisa/api/polisa/szukaj/numer/${scope.model.numerPolisy}`,
             headers: { 'Content-Type': 'application/json ' }
         }).
             then((response) => {
                 console.log(response);
                 scope.polisy = response.data;
+                console.log(response.data)
                 //scope.polisy.push(response.data);
             }, (response) => {
                 alert('Błąd podczas próby odczytu danych: ' + response.data);
@@ -33,7 +34,7 @@ app.controller('polisaSzukajCtrl', function ($scope, $http) {
     scope.wyszukajPoStatusie = () => {
         $http({
             method: 'GET',
-            url: `/polisa-jpa/api/polisa/szukaj/status/${scope.model.statusPolisy}`,
+            url: `/polisa/api/polisa/szukaj/status/${scope.model.statusPolisy}`,
             headers: { 'Content-Type': 'application/json ' }
         }).
             then((response) => {

@@ -15,8 +15,12 @@ public class PolisaObserwator2 {
 
 	private Logger log = Logger.getLogger("PolisaObserwator2");
 
-	public void zatwierdzeniePolisy(@Observes @PolisaEvent(Typ.USUN) Polisa polisa) {
-		log.info("Otrzyma³em polise: " + polisa);
+	public void usunieciePolisyPrzypisy(@Observes @PolisaEvent(Typ.USUN) Polisa polisa) {
+		log.info("Zeruje polisy: " + polisa);
 	}
 
+	public void usunieciePolisyRea(@Observes @PolisaEvent(Typ.USUN) Polisa polisa) {
+		log.info("Usuwam z REA: " + polisa);
+	}
+	
 }

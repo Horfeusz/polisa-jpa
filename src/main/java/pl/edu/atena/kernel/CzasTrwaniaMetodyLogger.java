@@ -6,8 +6,6 @@ import java.util.logging.Logger;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  * Interceptor Licz¹cy czas trwania metody
@@ -16,9 +14,6 @@ import javax.persistence.PersistenceContext;
  *
  */
 public class CzasTrwaniaMetodyLogger {
-
-	@PersistenceContext(unitName = "PolisaPU")
-	private EntityManager em;
 
 	@AroundInvoke
 	public Object liczCzas(InvocationContext invocation) throws Exception {

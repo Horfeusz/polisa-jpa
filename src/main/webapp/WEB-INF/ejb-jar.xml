@@ -7,6 +7,10 @@ http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
 		<interceptor>
 			<interceptor-class>pl.edu.atena.kernel.CzasTrwaniaMetodyLogger</interceptor-class>
 		</interceptor>
+		<interceptor>
+			<interceptor-class>pl.edu.atena.kernel.AudytInterceptor</interceptor-class>
+		</interceptor>
+		
 	</interceptors>
 
 	<assembly-descriptor>
@@ -15,9 +19,16 @@ http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
 			<interceptor-class>pl.edu.atena.kernel.CzasTrwaniaMetodyLogger</interceptor-class>
 		</interceptor-binding>
 		<interceptor-binding>
+			<ejb-name>*</ejb-name>
+			<interceptor-class>pl.edu.atena.kernel.AudytInterceptor</interceptor-class>
+		</interceptor-binding>		
+		
+		<!--
+		<interceptor-binding>
 			<ejb-name>PolicyNewProducer</ejb-name>
 			<exclude-default-interceptors>true</exclude-default-interceptors>
 		</interceptor-binding>
+		-->
 	</assembly-descriptor>
 
 </ejb-jar>

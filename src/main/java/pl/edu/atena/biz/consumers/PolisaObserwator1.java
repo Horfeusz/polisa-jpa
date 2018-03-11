@@ -16,10 +16,15 @@ public class PolisaObserwator1 {
 
 	private Logger log = Logger.getLogger("PolisaObserwator1");
 
-	public void inProgress(@Observes @PolisaEvent(Typ.ZATWIERDZ) Polisa polisa) {
-		log.info("onInProgress: " + polisa);
+	public void inProgressPrzypisy(@Observes(during = TransactionPhase.IN_PROGRESS) @PolisaEvent(Typ.ZATWIERDZ) Polisa polisa) {
+		log.info("Generuje przypisy: " + polisa);
 	}
 
+	public void inProgressReasekuracja(@Observes @PolisaEvent(Typ.ZATWIERDZ) Polisa polisa) {
+		log.info("Przeka¿e polise do rea: " + polisa);
+	}
+	
+	
 	public void afterSuccess(
 			@Observes(during = TransactionPhase.AFTER_SUCCESS) @PolisaEvent(Typ.ZATWIERDZ) Polisa polisa) {
 		log.info("afterSuccess: " + polisa);
@@ -39,4 +44,5 @@ public class PolisaObserwator1 {
 			@Observes(during = TransactionPhase.BEFORE_COMPLETION) @PolisaEvent(Typ.ZATWIERDZ) Polisa polisa) {
 		log.info("beforeCompletion: " + polisa);
 	}
+
 }

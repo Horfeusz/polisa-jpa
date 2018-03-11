@@ -1,6 +1,7 @@
 package pl.edu.atena.rest.ubepieczony;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,7 +21,7 @@ public class UbezpieczonyService {
 	@EJB
 	private UbezpieczonyDao dao;
 
-	@EJB
+	@Inject
 	private PolisaDao polisaDao;
 
 	@POST

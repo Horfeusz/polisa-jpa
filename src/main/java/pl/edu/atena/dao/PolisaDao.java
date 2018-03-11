@@ -6,14 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.interceptor.ExcludeClassInterceptors;
-import javax.interceptor.ExcludeDefaultInterceptors;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
@@ -28,8 +26,6 @@ import pl.edu.atena.entities.Polisa;
 import pl.edu.atena.entities.StatusPolisy;
 
 @Stateless
-// @Interceptors(CzasTrwaniaMetodyLogger.class)
-@ExcludeDefaultInterceptors
 public class PolisaDao {
 
 	private Logger log = Logger.getLogger("PolisaDao");
@@ -37,22 +33,22 @@ public class PolisaDao {
 	@PersistenceContext(unitName = "PolisaPU")
 	private EntityManager em;
 
-	@EJB
+	@Inject
 	private RyzykaDao ryzykoDao;
-
-	@EJB
-	private AudytDao audyt;
 
 	@Inject
 	@PolisaEvent(Typ.ZATWIERDZ)
 	private Event<Polisa> eventZatwierdz;
 
+	public PolisaDao() {
+	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void create(Polisa polisa) {
 		log.info("Polisa przed persist");
 		em.persist(polisa);
-		
-		eventZatwierdz.fire(polisa);
+
+		// eventZatwierdz.fire(polisa);
 		log.info("Po odpaleniu");
 	}
 

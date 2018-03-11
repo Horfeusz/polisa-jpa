@@ -1,11 +1,13 @@
 package pl.edu.atena.rest.polisa;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,6 +23,8 @@ import pl.edu.atena.biz.consumers.PolisaEvent;
 import pl.edu.atena.biz.consumers.PolisaEvent.Typ;
 import pl.edu.atena.biz.producers.PolicyNewProducer;
 import pl.edu.atena.biz.producers.PolicyNewToTopicProducer;
+import pl.edu.atena.biz.producers.PolisaKolejka;
+import pl.edu.atena.biz.producers.PolisaProducer;
 import pl.edu.atena.biz.timers.PolicyCountTimer;
 import pl.edu.atena.dao.AudytDao;
 import pl.edu.atena.dao.PolisaDao;
@@ -55,6 +59,14 @@ public class PolisaService {
 	@EJB
 	private AudytDao audyt;
 
+	// @Inject
+	// @PolisaKolejka
+	// private PolisaProducer kolejkaProducer;
+
+	// @Inject
+	// @Named
+	// private PolisaProducer tematProducer;
+
 	@Inject
 	@PolisaEvent(Typ.ZATWIERDZ)
 	private Event<Polisa> eventZatwierdz;
@@ -69,9 +81,15 @@ public class PolisaService {
 	public Response create(Polisa polisa) {
 		try {
 			polisaDao.create(polisa);
-			log.info("Po create");		
+
+			// if(StatusPolisy.ZATWIERDZONA.equals(polisa.getStatusPolisy())) {
+			// eventZatwierdz.fire(polisa);
+			// } else if(StatusPolisy.ROZWIAZANA.equals(polisa.getStatusPolisy())) {
+			// eventUsun.fire(polisa);
+			// }
+
 		} catch (Exception e) {
-			audyt.loguj("Cos tam sie stalo: " + e.getMessage());
+			//audyt.loguj("Cos tam sie stalo: " + e.getMessage());
 		}
 
 		// policyNewProducer.sendPolicy(polisa);
@@ -112,12 +130,11 @@ public class PolisaService {
 	@GET
 	@Path("/szukaj/numer/{numer}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Polisa poNumerze(@PathParam("numer") String numer) {
+	public List<Polisa> poNumerze(@PathParam("numer") String numer) {
 		Polisa polisa = polisaDao.szukajPoNumerze(numer);
-
-		// polisa2Dao.ileRyzyk(numer);
-
-		return polisa;
+		List<Polisa> polisy = new ArrayList<Polisa>();
+		polisy.add(polisa);
+		return polisy;
 	}
 
 	@GET
