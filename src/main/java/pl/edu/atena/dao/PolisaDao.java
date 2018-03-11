@@ -24,6 +24,7 @@ import pl.edu.atena.biz.consumers.PolisaEvent;
 import pl.edu.atena.biz.consumers.PolisaEvent.Typ;
 import pl.edu.atena.entities.Polisa;
 import pl.edu.atena.entities.StatusPolisy;
+import pl.edu.atena.kernel.RequestTest;
 
 @Stateless
 public class PolisaDao {
@@ -40,6 +41,9 @@ public class PolisaDao {
 	@PolisaEvent(Typ.ZATWIERDZ)
 	private Event<Polisa> eventZatwierdz;
 
+	@Inject
+	private RequestTest requestTest;
+	
 	public PolisaDao() {
 	}
 
@@ -49,7 +53,9 @@ public class PolisaDao {
 		em.persist(polisa);
 
 		// eventZatwierdz.fire(polisa);
-		log.info("Po odpaleniu");
+		requestTest.add("Po odpaleniu");
+		
+		
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

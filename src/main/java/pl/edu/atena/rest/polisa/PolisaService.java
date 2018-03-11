@@ -16,14 +16,16 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import pl.edu.atena.biz.consumers.PolisaEvent;
 import pl.edu.atena.biz.consumers.PolisaEvent.Typ;
+import pl.edu.atena.biz.file.ZapiszDoPliku;
 import pl.edu.atena.biz.producers.PolicyNewProducer;
 import pl.edu.atena.biz.producers.PolicyNewToTopicProducer;
-import pl.edu.atena.biz.producers.PolisaKolejka;
 import pl.edu.atena.biz.producers.PolisaProducer;
 import pl.edu.atena.biz.timers.PolicyCountTimer;
 import pl.edu.atena.dao.AudytDao;
@@ -32,6 +34,7 @@ import pl.edu.atena.dao.PolisaDao2;
 import pl.edu.atena.dao.UbezpieczonyDao;
 import pl.edu.atena.entities.Polisa;
 import pl.edu.atena.entities.StatusPolisy;
+import pl.edu.atena.kernel.RequestTest;
 
 @Path("/polisa")
 public class PolisaService {
@@ -59,13 +62,13 @@ public class PolisaService {
 	@EJB
 	private AudytDao audyt;
 
-	// @Inject
-	// @PolisaKolejka
-	// private PolisaProducer kolejkaProducer;
+	@Inject
+	@Named
+	private PolisaProducer kolejkaProducer;
 
-	// @Inject
-	// @Named
-	// private PolisaProducer tematProducer;
+	@Inject
+	@Named("tematProducer")
+	private PolisaProducer dupa;
 
 	@Inject
 	@PolisaEvent(Typ.ZATWIERDZ)
@@ -75,21 +78,35 @@ public class PolisaService {
 	@PolisaEvent(Typ.USUN)
 	private Event<Polisa> eventUsun;
 
+	@Inject
+	@Named
+	private ZapiszDoPliku xml;
+
+	@Inject
+	@Named
+	private ZapiszDoPliku json;
+
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(Polisa polisa) {
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response create(Polisa polisa, @Context HttpHeaders headers) {
+		String contentType = headers.getRequestHeader("content-Type").iterator().next();
+
 		try {
 			polisaDao.create(polisa);
 
-			// if(StatusPolisy.ZATWIERDZONA.equals(polisa.getStatusPolisy())) {
-			// eventZatwierdz.fire(polisa);
-			// } else if(StatusPolisy.ROZWIAZANA.equals(polisa.getStatusPolisy())) {
-			// eventUsun.fire(polisa);
-			// }
+			if ("application/xml".equals(contentType)) {
+				xml.zapisz(polisa);
+			}
+
+			if ("application/json".equals(contentType)) {
+				json.zapisz(polisa);
+			}
 
 		} catch (Exception e) {
-			//audyt.loguj("Cos tam sie stalo: " + e.getMessage());
+			e.printStackTrace();
+
+			// audyt.loguj("Cos tam sie stalo: " + e.getMessage());
 		}
 
 		// policyNewProducer.sendPolicy(polisa);

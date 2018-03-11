@@ -14,10 +14,10 @@ public class PolicyJob {
 
 	private Logger log = Logger.getLogger("PolicyJob");
 
-	@Schedule(second = "0", minute = "0,10,20,30,40,50", hour = "*", persistent = false)
-	public void execute(Timer timer) {
-		log.info("Odpale siê znowu: " + timer.getNextTimeout());
-	}
+	//@Schedule(second = "0", minute = "0,10,20,30,40,50", hour = "*", persistent = false)
+	//public void execute(Timer timer) {
+	//	log.info("Odpale siê znowu: " + timer.getNextTimeout());
+	//}
 
 	@PostConstruct
 	public void init() {

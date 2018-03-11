@@ -2,11 +2,12 @@ package pl.edu.atena.biz.producers;
 
 import javax.enterprise.inject.New;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import pl.edu.atena.entities.Agent;
 import pl.edu.atena.entities.Polisa;
 
-@PolisaKolejka
+@Named("kolejkaProducer")
 public class PolisaKolejkaProducer implements PolisaProducer {
 
 	@Inject

@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.inject.Model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +33,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import pl.edu.atena.dao.PolisaDao;
 
@@ -47,6 +49,7 @@ import pl.edu.atena.dao.PolisaDao;
 		@EntityResult(entityClass = PolisaIleRyzykVO.class, fields = { @FieldResult(name = "id", column = "id"),
 				@FieldResult(name = "nrPolisy", column = "NR_POLISY"), @FieldResult(name = "ile", column = "ile") }) })
 @EntityListeners({ PolisaDao.class })
+@XmlRootElement
 public class Polisa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -89,6 +92,7 @@ public class Polisa implements Serializable {
 		return id;
 	}
 
+	@XmlAttribute
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -96,7 +100,8 @@ public class Polisa implements Serializable {
 	public String getNumerPolisy() {
 		return numerPolisy;
 	}
-
+	
+	@XmlElement
 	public void setNumerPolisy(String numerPolisy) {
 		this.numerPolisy = numerPolisy;
 	}
@@ -105,6 +110,7 @@ public class Polisa implements Serializable {
 		return ubezpieczajacy;
 	}
 
+	@XmlElement
 	public void setUbezpieczajacy(String ubezpieczajacy) {
 		this.ubezpieczajacy = ubezpieczajacy;
 	}
@@ -113,6 +119,7 @@ public class Polisa implements Serializable {
 		return skladka;
 	}
 
+	@XmlElement
 	public void setSkladka(BigDecimal skladka) {
 		this.skladka = skladka;
 	}
@@ -121,6 +128,7 @@ public class Polisa implements Serializable {
 		return idTemp;
 	}
 
+	@XmlElement
 	public void setIdTemp(Long idTemp) {
 		this.idTemp = idTemp;
 	}
@@ -129,6 +137,7 @@ public class Polisa implements Serializable {
 		return dataPodpisania;
 	}
 
+	@XmlElement
 	public void setDataPodpisania(Date dataPodpisania) {
 		this.dataPodpisania = dataPodpisania;
 	}
@@ -137,6 +146,7 @@ public class Polisa implements Serializable {
 		return wr;
 	}
 
+	@XmlElement
 	public void setWr(Date wr) {
 		this.wr = wr;
 	}
@@ -145,6 +155,7 @@ public class Polisa implements Serializable {
 		return statusPolisy;
 	}
 
+	@XmlElement
 	public void setStatusPolisy(StatusPolisy statusPolisy) {
 		this.statusPolisy = statusPolisy;
 	}
@@ -153,6 +164,7 @@ public class Polisa implements Serializable {
 		return agenci;
 	}
 
+	@XmlElement
 	public void setAgenci(List<Agent> agenci) {
 		this.agenci = agenci;
 	}
@@ -161,6 +173,7 @@ public class Polisa implements Serializable {
 		return ryzyka;
 	}
 
+	@XmlElement
 	public void setRyzyka(List<Ryzyko> ryzyka) {
 		this.ryzyka = ryzyka;
 	}
@@ -170,11 +183,6 @@ public class Polisa implements Serializable {
 		return String.format(
 				"Polisa [id=%s, numerPolisy=%s, idTemp=%s, dataPodpisania=%s, wr=%s, statusPolisy=%s, ubezpieczajacy=%s, agenci=%s, ryzyka=%s, skladka=%s]",
 				id, numerPolisy, idTemp, dataPodpisania, wr, statusPolisy, ubezpieczajacy, agenci, ryzyka, skladka);
-	}
-
-	@PostPersist
-	private void afterCreate() {
-		System.out.println("Zapisa³em siê");
 	}
 
 }

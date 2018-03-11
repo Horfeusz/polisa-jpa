@@ -5,7 +5,7 @@ import javax.inject.Named;
 
 import pl.edu.atena.entities.Polisa;
 
-//@Named("tematProducer")
+@Named("tematProducer")
 public class PolisaTematProducer implements PolisaProducer {
 
 	@Inject
