@@ -1,6 +1,7 @@
 package pl.edu.atena.rest.polisa;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -8,14 +9,18 @@ import javax.ejb.EJB;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -86,12 +91,44 @@ public class PolisaService {
 	@Named
 	private ZapiszDoPliku json;
 
+	/**
+	 * Filtrowanie polis
+	 * 
+	 * @param mode
+	 * @param statusPolisy
+	 * @param ubezpieczajacy
+	 * @param httpHeaders
+	 * @return
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML + ";charset=utf-8", MediaType.APPLICATION_JSON + ";charset=utf-8" })
+	public Response filtrujPolisy(@DefaultValue("") @QueryParam("numerPolisy") String numerPolisy,
+			@DefaultValue("") @QueryParam("statusPolisy") String statusPolisy,
+			@DefaultValue("") @QueryParam("ubezpieczajacy") String ubezpieczajacy, @Context HttpHeaders httpHeaders) {
+
+		log.info(numerPolisy);
+		log.info(statusPolisy);
+		log.info(ubezpieczajacy);
+
+		httpHeaders.getRequestHeaders().forEach((klucz, lista) -> {
+			// TODO
+		});
+
+		Polisa polisa = polisaDao.szukajPoNumerze(numerPolisy);
+
+		JsonObject result = Json.createObjectBuilder().add("numerPolisyZlocitki", polisa.getNumerPolisy()).build();
+
+		List<Polisa> polisy = new ArrayList<>();
+
+		return Response.status(200).entity(result).build();
+
+	};
+
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response create(Polisa polisa, @Context HttpHeaders headers) {
 		String contentType = headers.getRequestHeader("content-Type").iterator().next();
-
 		try {
 			polisaDao.create(polisa);
 

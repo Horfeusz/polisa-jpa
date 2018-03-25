@@ -8,6 +8,7 @@
 	<name>Akademia Java. Projekt szkoleniowy wykorzystujący JPA</name>
 	<url>http://atena.pl</url>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
@@ -35,7 +36,7 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -49,6 +50,9 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
+
+	<build>
+		<finalName>polisa-jpa</finalName>
+	</build>
 </project>

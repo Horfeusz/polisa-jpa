@@ -24,4 +24,8 @@ public class AudytDao {
 		em.persist(AudytFactory.create(date, timeAsMilisecond, invocation));
 	}
 
+	public void loguj(Date date, Long timeAsMilisecond, String method) {
+		em.persist(AudytFactory.create(date, timeAsMilisecond, method));
+	}
+	
 }

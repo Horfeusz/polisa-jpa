@@ -10,10 +10,13 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "EP_UBEZPIECZONY")
 @NamedEntityGraph(name = "graph.Ubezpieczony.ryzyko", attributeNodes = { @NamedAttributeNode("ryzyko") })
+@XmlRootElement(name = "INSURER")
 public class Ubezpieczony {
 
 	@Id
@@ -30,6 +33,7 @@ public class Ubezpieczony {
 		return id;
 	}
 
+	@XmlElement(name = "ID")
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -38,6 +42,7 @@ public class Ubezpieczony {
 		return nazwa;
 	}
 
+	@XmlElement(name = "NAME")
 	public void setNazwa(String nazwa) {
 		this.nazwa = nazwa;
 	}

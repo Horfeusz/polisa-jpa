@@ -2,6 +2,7 @@ package pl.edu.atena.entities;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,9 @@ public class Ryzyko {
 	private Long id;
 
 	private BigDecimal skladka;
+
+	@Column(name = "SYMBOL_UBEZPIECZENIA")
+	private String symbol;
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "POL_ID", foreignKey = @ForeignKey(name = "FK_RYZYKO_TO_POLISA"))

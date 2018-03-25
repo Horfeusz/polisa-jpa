@@ -22,4 +22,12 @@ public class AudytFactory {
 		return audyt;
 	}
 
+	public static Audyt create(Date date, Long timeAsMilisecond, String method) {
+		Audyt audyt = new Audyt();
+		audyt.setMethod(method);
+		audyt.setTime(timeAsMilisecond);
+		audyt.setWr(date);
+		return audyt;
+	}
+
 }
