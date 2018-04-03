@@ -3,6 +3,7 @@ package pl.edu.atena.rest.polisa;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
@@ -44,52 +45,10 @@ import pl.edu.atena.kernel.RequestTest;
 @Path("/polisa")
 public class PolisaService {
 
-	private Logger log = Logger.getLogger("PolisaService");
-
-	@EJB
+	@Inject
 	private PolisaDao polisaDao;
 
-	@EJB
-	private PolisaDao2 polisaDao2;
-
-	@EJB
-	private UbezpieczonyDao ubezpieczonyDao;
-
-	@EJB
-	private PolicyNewProducer policyNewProducer;
-
-	@EJB
-	private PolicyCountTimer policyCountTimer;
-
-	@EJB
-	private PolicyNewToTopicProducer policyNewToTopicProducer;
-
-	@EJB
-	private AudytDao audyt;
-
-	@Inject
-	@Named
-	private PolisaProducer kolejkaProducer;
-
-	@Inject
-	@Named("tematProducer")
-	private PolisaProducer dupa;
-
-	@Inject
-	@PolisaEvent(Typ.ZATWIERDZ)
-	private Event<Polisa> eventZatwierdz;
-
-	@Inject
-	@PolisaEvent(Typ.USUN)
-	private Event<Polisa> eventUsun;
-
-	@Inject
-	@Named
-	private ZapiszDoPliku xml;
-
-	@Inject
-	@Named
-	private ZapiszDoPliku json;
+	private Logger log = Logger.getLogger("PolisaService");
 
 	/**
 	 * Filtrowanie polis
@@ -106,12 +65,16 @@ public class PolisaService {
 			@DefaultValue("") @QueryParam("statusPolisy") String statusPolisy,
 			@DefaultValue("") @QueryParam("ubezpieczajacy") String ubezpieczajacy, @Context HttpHeaders httpHeaders) {
 
+		// FIXME -- filtrowanie polisy
+
 		log.info(numerPolisy);
 		log.info(statusPolisy);
 		log.info(ubezpieczajacy);
 
 		httpHeaders.getRequestHeaders().forEach((klucz, lista) -> {
-			// TODO
+			StringBuilder sb = new StringBuilder(klucz);
+			sb.append(":").append(lista);
+			log.info(sb.toString());
 		});
 
 		Polisa polisa = polisaDao.szukajPoNumerze(numerPolisy);
@@ -125,44 +88,12 @@ public class PolisaService {
 	};
 
 	@POST
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response create(Polisa polisa, @Context HttpHeaders headers) {
-		String contentType = headers.getRequestHeader("content-Type").iterator().next();
-		try {
-			polisaDao.create(polisa);
-
-			if ("application/xml".equals(contentType)) {
-				xml.zapisz(polisa);
-			}
-
-			if ("application/json".equals(contentType)) {
-				json.zapisz(polisa);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			// audyt.loguj("Cos tam sie stalo: " + e.getMessage());
-		}
-
-		// policyNewProducer.sendPolicy(polisa);
-		// policyNewToTopicProducer.send(polisa);
-
-		// policyCountTimer.create();
-		// policyCountTimer.timery();
-		return Response.status(200).entity(polisa).build();
-	}
-
-	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/ubezpieczajacy")
-	public Response updateUbezpieczajacy(Polisa polisa) {
-		Polisa polisaDb = polisaDao.szukajPoNumerze(polisa.getNumerPolisy());
-		polisaDb.setUbezpieczajacy(polisa.getUbezpieczajacy());
-		polisaDb = polisaDao2.updateUbezpieczajacy(polisaDb);
-		return Response.status(200).entity(polisaDb).build();
+	public Response create(Polisa polisa, @Context HttpHeaders headers) {
+		Objects.nonNull(polisa);
+		polisaDao.create(polisa);
+		return Response.status(200).entity(polisa).build();
 	}
 
 	@PUT
@@ -170,7 +101,6 @@ public class PolisaService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(Polisa polisa) {
 		Polisa result = polisaDao.update(polisa);
-		// policyNewProducer.sendPolicy(polisa);
 		return Response.status(200).entity(result).build();
 	}
 
@@ -179,23 +109,6 @@ public class PolisaService {
 	public Response delete(@PathParam("id") Long id) {
 		polisaDao.delete(id);
 		return Response.status(200).build();
-	}
-
-	@GET
-	@Path("/szukaj/numer/{numer}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Polisa> poNumerze(@PathParam("numer") String numer) {
-		Polisa polisa = polisaDao.szukajPoNumerze(numer);
-		List<Polisa> polisy = new ArrayList<Polisa>();
-		polisy.add(polisa);
-		return polisy;
-	}
-
-	@GET
-	@Path("/szukaj/status/{status}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Polisa> poStatusie(@PathParam("status") StatusPolisy status) {
-		return polisaDao.szukajPoStatusie(status);
 	}
 
 }

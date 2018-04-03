@@ -1,32 +1,40 @@
 package pl.edu.atena.rest.ws;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import javax.jws.WebParam.Mode;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.xml.ws.Holder;
 
-@Stateless
+import pl.edu.atena.dao.PolisaDao;
+import pl.edu.atena.entities.Polisa;
+
 @WebService(name = "polisa", targetNamespace = "http://pl.atena.edu.ws.polisa/", serviceName = "ServicePolisa")
 public class PolisaWService {
 
 	private Logger log = Logger.getAnonymousLogger();
 
-	@WebResult(name = "rezultatio", targetNamespace = "http://pl.atena.edu.ws.polisa/")
-	@WebMethod(operationName = "przywitanieSie")
-	public String hello(@WebParam(name = "nazwa", targetNamespace = "http://pl.atena.edu.ws.polisa/") String name,
-			@WebParam(name = "holderek", mode = Mode.INOUT, targetNamespace = "http://pl.atena.edu.ws.polisa/") Holder<String> marka) {
+	@Inject
+	private PolisaDao polisaDao;
 
-		log.info("DZiałam: " + name + " z holderka: " + marka.value);
+	@WebResult(name = "polisaId", targetNamespace = "http://pl.atena.edu.ws.polisa/")
+	@WebMethod
+	public Polisa dodajPolise(@WebParam(targetNamespace = "http://pl.atena.edu.ws.polisa/") Polisa polisa) {
+		log.info(polisa.toString());
+		Objects.nonNull(polisa);
+		polisaDao.create(polisa);
+		return polisa;
+	}
 
-		marka.value = "Zwracam jakąś tam wartość";
-
-		return "Jak się masz " + name;
-
+	@WebResult(name = "polisa", targetNamespace = "http://pl.atena.edu.ws.polisa/")
+	@WebMethod
+	public Polisa szukajPoNumerze(@WebParam(targetNamespace = "http://pl.atena.edu.ws.polisa/") String numerPolisy) {
+		log.info("Szukam polisy o numerze: " + numerPolisy);
+		Objects.nonNull(numerPolisy);
+		return polisaDao.szukajPoNumerze(numerPolisy);
 	}
 
 }

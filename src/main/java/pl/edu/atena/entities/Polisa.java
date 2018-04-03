@@ -25,7 +25,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
-import javax.persistence.PostPersist;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,7 +32,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -88,19 +86,19 @@ public class Polisa implements Serializable {
 
 	private BigDecimal skladka;
 
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
 
-	@XmlAttribute
-	public void setId(Long id) {
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
 	public String getNumerPolisy() {
 		return numerPolisy;
 	}
-	
+
 	@XmlElement
 	public void setNumerPolisy(String numerPolisy) {
 		this.numerPolisy = numerPolisy;
@@ -142,12 +140,12 @@ public class Polisa implements Serializable {
 		this.dataPodpisania = dataPodpisania;
 	}
 
+	@XmlElement
 	public Date getWr() {
 		return wr;
 	}
 
-	@XmlElement
-	public void setWr(Date wr) {
+	protected void setWr(Date wr) {
 		this.wr = wr;
 	}
 

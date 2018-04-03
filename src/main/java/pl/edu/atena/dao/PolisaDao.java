@@ -43,7 +43,7 @@ public class PolisaDao {
 
 	@Inject
 	private RequestTest requestTest;
-	
+
 	public PolisaDao() {
 	}
 
@@ -54,8 +54,7 @@ public class PolisaDao {
 
 		// eventZatwierdz.fire(polisa);
 		requestTest.add("Po odpaleniu");
-		
-		
+
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -96,6 +95,9 @@ public class PolisaDao {
 		Query query = em.createQuery(
 				"select p from Polisa p LEFT JOIN FETCH p.ryzyka r LEFT JOIN p.agenci a where p.numerPolisy = ?1");
 		query.setParameter(1, numer);
+		if (query.getFirstResult() == 0) {
+			return null;
+		}
 		return (Polisa) query.getSingleResult();
 	}
 

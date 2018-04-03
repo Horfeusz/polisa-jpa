@@ -1,5 +1,6 @@
 package pl.edu.atena.rest.ryzyko;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -15,13 +16,24 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import pl.edu.atena.dao.PolisaDao;
+import pl.edu.atena.entities.Polisa;
+import pl.edu.atena.entities.Ryzyko;
+
 public class RyzykoSerwis {
 
+	@Inject
+	private PolisaDao polisaDao;
+	
 	@GET
 	@Path("/polisa/{numerPolisy}/ryzyko/{symbol}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response dajRyzyko(@PathParam(value = "numerPolisy") String numerPolisy,
 			@PathParam(value = "symbol") String symbol) {
+		
+		//FIXME Zapytanie
+		
+
 		return Response.status(200).build();
 	}
 
@@ -41,7 +53,13 @@ public class RyzykoSerwis {
 	@Path("/polisa/{numerPolisy}/ryzyko")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response dodajRyzykoDoPolisy(@PathParam(value = "numerPolisy") String numerPolisy) {
+	public Response dodajRyzykoDoPolisy(@PathParam(value = "numerPolisy") String numerPolisy, Ryzyko ryzyko) {
+		Polisa polisa = polisaDao.szukajPoNumerze(numerPolisy);
+		if(polisa == null) {
+			
+		}
+
+		
 		return Response.status(200).build();
 	}
 
