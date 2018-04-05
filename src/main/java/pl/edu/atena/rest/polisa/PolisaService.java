@@ -1,15 +1,9 @@
 package pl.edu.atena.rest.polisa;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
@@ -27,20 +21,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import pl.edu.atena.biz.consumers.PolisaEvent;
-import pl.edu.atena.biz.consumers.PolisaEvent.Typ;
-import pl.edu.atena.biz.file.ZapiszDoPliku;
-import pl.edu.atena.biz.producers.PolicyNewProducer;
-import pl.edu.atena.biz.producers.PolicyNewToTopicProducer;
-import pl.edu.atena.biz.producers.PolisaProducer;
-import pl.edu.atena.biz.timers.PolicyCountTimer;
-import pl.edu.atena.dao.AudytDao;
 import pl.edu.atena.dao.PolisaDao;
-import pl.edu.atena.dao.PolisaDao2;
-import pl.edu.atena.dao.UbezpieczonyDao;
 import pl.edu.atena.entities.Polisa;
-import pl.edu.atena.entities.StatusPolisy;
-import pl.edu.atena.kernel.RequestTest;
 
 @Path("/polisa")
 public class PolisaService {
@@ -81,7 +63,6 @@ public class PolisaService {
 
 		JsonObject result = Json.createObjectBuilder().add("numerPolisyZlocitki", polisa.getNumerPolisy()).build();
 
-		List<Polisa> polisy = new ArrayList<>();
 
 		return Response.status(200).entity(result).build();
 
