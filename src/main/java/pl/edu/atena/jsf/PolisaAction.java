@@ -23,9 +23,9 @@ public class PolisaAction {
 	private PolisaDao dao;
 
 	private Polisa polisa;
-	
+
 	private StatusPolisy[] statusy = StatusPolisy.values();
-	
+
 	public StatusPolisy[] getStatusy() {
 		return statusy;
 	}
@@ -40,11 +40,17 @@ public class PolisaAction {
 
 	@PostConstruct
 	private void init() {
-		polisa = new Polisa();
+		String idPolisy = FacesContext.getCurrentInstance().
+				getExternalContext().getRequestParameterMap().get("idPolisy");
+		if (idPolisy == null) {
+			polisa = new Polisa();
+		} else {
+			polisa = dao.find(Long.valueOf(idPolisy));
+		}
 	}
 
 	public void zapisz() {
-		if(polisa.getId() == null) {
+		if (polisa.getId() == null) {
 			dao.create(polisa);
 		} else {
 			dao.update(polisa);
@@ -53,8 +59,8 @@ public class PolisaAction {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		facesContext.addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Zapisano polise o id:", polisa.getId().toString()));
-		
-		//polisa = new Polisa();
+
+		// polisa = new Polisa();
 	}
 
 	public void onDateSelect(SelectEvent event) {
@@ -62,5 +68,9 @@ public class PolisaAction {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 		facesContext.addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Wybrano date", format.format(event.getObject())));
+	}
+
+	public String lista() {
+		return "lista";
 	}
 }

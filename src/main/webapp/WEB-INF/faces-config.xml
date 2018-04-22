@@ -4,5 +4,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
+	<navigation-rule>
+		<from-view-id>/lista.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{listaAction.nowa}</from-action>
+		 	<from-outcome>nowa</from-outcome>
+		 	<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/lista.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{listaAction.edytuj}</from-action>
+		 	<from-outcome>edytuj</from-outcome>
+		 	<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 
 </faces-config>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15243420574610" configfile="/polisa-jpa/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="polisy.xhtml" x="209" y="108" id="pf15243422118081" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15243422118082" path="/polisy.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="432" y="108" id="pf15243422118083" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15243422118082" path="/index.xhtml"/>
-  <links id="pf15243422118082" target="pf15243422118083" source="pf15243422118081" outcome="rejestracja" fromaction="#{listaMBean.rejestruj}"/>
+  <nodes xsi:type="pageflow:PFPage" name="lista.xhtml" x="276" y="180" id="pf15244012214820" outlinks="pf15244012214821" path="/lista.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="612" y="180" id="pf15244012214822" inlinks="pf15244012214821" path="/index.xhtml"/>
+  <links id="pf15244012214821" target="pf15244012214822" source="pf15244012214820" outcome="nowa" fromaction="#{listaAction.nowa}"/>
 </pageflow:Pageflow>

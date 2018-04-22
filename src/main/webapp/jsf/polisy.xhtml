@@ -27,13 +27,13 @@
 
 		<p:column headerText="Data rejestracji">
 			<h:outputText value="#{polisa.wr}">
-				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+				<f:convertDateTime pattern="yyyy-MM-dd hh:mm:ss"></f:convertDateTime>
 			</h:outputText>
 		</p:column>
 
 		<p:column headerText="Data podpisania">
 			<h:outputText value="#{polisa.dataPodpisania}">
-				<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+				<f:convertDateTime pattern="yyyy-MM-dd" locale="pl_PL"></f:convertDateTime>
 			</h:outputText>
 		</p:column>
 
