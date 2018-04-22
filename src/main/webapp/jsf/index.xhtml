@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style>
+.panelGridCenter {
+	margin: 0 auto;
+}
+</style>
+</h:head>
+<h:body>
+	<h1>#{myApplication.applicationTitle}</h1>
+
+	<h:form>
+		<p:growl id="msgs" showDetail="true" />
+		<h:panelGrid columns="2" cellpadding="5" styleClass="panelGridCenter">
+			<f:facet name="header">
+				<h:outputText value="REJESTRACJA POLISY" />
+			</f:facet>
+
+			<p:outputLabel for="policyNumber" value="Numer polisy:" />
+			<p:inputText id="policyNumber"
+				value="#{polisaMBean.polisa.numerPolisy}" />
+
+			<p:outputLabel for="registerDate" value="Data podpisania:" />
+			<p:calendar id="registerDate"
+				value="#{polisaMBean.polisa.dataPodpisania}">
+				<p:ajax event="dateSelect" listener="#{polisaMBean.onDateSelect}"
+					update="msgs" />
+			</p:calendar>
+
+			<p:outputLabel for="status" value="Status:" />
+			<p:selectOneMenu id="status" value="#{polisaMBean.statusPolisy}"
+				style="width:160px">
+				<f:selectItems value="#{polisaMBean.statusy}" />
+				<!-- 
+            		<f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+            		<f:selectItem itemLabel="PS4" itemValue="PS4" />
+            		<f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+            		-->
+			</p:selectOneMenu>
+
+			<p:commandButton value="Zapisz" action="#{polisaMBean.polisy}"
+			actionListener="#{polisaMBean.zapisz}" update="msgs"></p:commandButton>
+		</h:panelGrid>
+	</h:form>
+
+	<!--
+            		<ui:repeat value="#{polisaMBean.statusy}" varStatus="loop">
+            			<i>#{polisaMBean.statusy[loop.index]}</i>
+					</ui:repeat>
+ -->
+
+</h:body>
+</html>

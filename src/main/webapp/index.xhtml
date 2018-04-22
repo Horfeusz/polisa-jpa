@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style>
+.panelGridCenter {
+	margin: 0 auto;
+}
+</style>
+</h:head>
+<h:body>
+	<h1>#{myApplication.applicationTitle}</h1>
+
+	<h:form>
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:panelGrid columns="2" cellpadding="5" styleClass="panelGridCenter">
+			<f:facet name="header">
+				<h:outputText value="REJESTRACJA POLISY" />
+			</f:facet>
+
+			<p:outputLabel for="policyNumber" value="Numer polisy:" />
+			<p:inputText id="policyNumber"
+				value="#{polisaAction.polisa.numerPolisy}" />
+
+			<p:outputLabel for="dataPodpisania" value="Data podpisania:" />
+
+			<p:calendar id="dataPodpisania"
+				value="#{polisaAction.polisa.dataPodpisania}">
+				<p:ajax event="dateSelect" listener="#{polisaAction.onDateSelect}"
+					update="msgs" />
+			</p:calendar>
+
+			<p:outputLabel for="status" value="Status:" />
+			<p:selectOneMenu id="status"
+				value="#{polisaAction.polisa.statusPolisy}" style="width:160px">
+				<f:selectItems value="#{polisaAction.statusy}" />
+			</p:selectOneMenu>
+
+
+		</p:panelGrid>
+		<p:separator />
+		<p:commandButton value="Zapisz"
+			actionListener="#{polisaAction.zapisz}" update="msgs"></p:commandButton>
+	</h:form>
+</h:body>
+</html>

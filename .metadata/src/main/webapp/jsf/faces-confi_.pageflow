@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15243769720524" configfile="/polisa-jpa/src/main/webapp/jsf/faces-confi_.xml">
+  <nodes xsi:type="pageflow:PFPage" name="polisy.xhtml" x="122" y="178" id="pf15243769889635" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15243769889636" path="/polisy.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="178" id="pf15243769889637" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15243769889636" path="/index.xhtml"/>
+  <links id="pf15243769889636" target="pf15243769889637" source="pf15243769889635" outcome="rejestracja" fromaction="#{listaMBean.rejestruj}"/>
+</pageflow:Pageflow>

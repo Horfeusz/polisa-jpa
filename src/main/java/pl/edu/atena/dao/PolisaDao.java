@@ -108,6 +108,11 @@ public class PolisaDao {
 		return query.getResultList();
 	}
 
+	public List<Polisa> select() {
+		Query query = em.createQuery("select p from Polisa p");
+		return query.getResultList();
+	}
+
 	@SuppressWarnings("unchecked")
 	public void ileRyzyk(String numer) {
 		Query query = em.createNativeQuery(
